@@ -1,5 +1,6 @@
 import CryptoCore
 import BigInt
+import secp256k1
 
 public protocol KeyDerivator {
     @inlinable

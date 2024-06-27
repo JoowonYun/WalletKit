@@ -15,22 +15,24 @@ let package = Package(
     dependencies: [
         // 🔢 Arbitrary-precision arithmetic in pure Swift
         .package(url: "https://github.com/attaswift/BigInt.git", from: "5.0.0"),
-        
         // 🔑 Hashing (BCrypt, SHA2, HMAC), encryption (AES), public-key (RSA), and random data generation.
-        .package(url: "https://github.com/astrokin/CryptoCore", .branch("master")),
+        .package(url: "https://github.com/JoowonYun/CryptoCore", .branch("master")),
+        
+        // secp256k1
+        .package(url: "https://github.com/Boilertalk/Web3.swift.git", from: "0.6.0"),
     ],
     targets: [
         // 📚 -- Mnemonic code for generating deterministic keys
         .target(name: "BIP39", dependencies: [
             "CryptoCore"
         ]),
-        
+
         // 💰 -- Hierarchical Deterministic Wallets
         .target(name: "BIP32", dependencies: [
             "CryptoCore",
             "BigInt",
+            .product(name: "Web3", package: "Web3.swift"),
         ]),
-
         // 🏦 -- Multi-Account Hierarchy for Deterministic Wallets
         .target(name: "BIP44", dependencies: [
             "BIP32"
@@ -51,7 +53,7 @@ let package = Package(
         .testTarget(name: "BIP39Tests", dependencies: [
             "XCTHelpers",
         ]),
-        
+
         // Test -- BIP32
         .testTarget(name: "BIP32Tests", dependencies: [
             "XCTHelpers",
